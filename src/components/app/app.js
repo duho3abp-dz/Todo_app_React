@@ -10,7 +10,8 @@ const App = () => {
     const todoData = [
         { value: 'Learn React', important: false, id: 1 },
         { value: 'Build awesome App', important: true, id: 2 },
-        { value: 'Drink coffee', important: false, id: 3 }
+        { value: 'Drink coffee', important: false, id: 3 },
+        { value: 'I need to develop a lot of components in Ract. I am very happy!', important: false, id: 4 }
     ];
 
     return (

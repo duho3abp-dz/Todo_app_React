@@ -1,3 +1,9 @@
+.todo-list-item-label {
+    display: flex;
+    align-items: center;
+    max-width: 80%;
+}
+
 .todo-list-item {
     display: flex;
     justify-content: space-between;
