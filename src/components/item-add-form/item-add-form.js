@@ -27,7 +27,8 @@ export default class ItemAddForm extends Component {
                 <input type="text" 
                     value={ this.state.value }
                     onChange={ this.changeValue }
-                    className="item-add-form-input form-control" />
+                    className="item-add-form-input form-control"
+                    placeholder="What to do?" />
 
                 <button type="submit" 
                         className="item-add-form-btn btn btn-secondary"

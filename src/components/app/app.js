@@ -11,11 +11,12 @@ export default class App extends Component {
     id = 0
     state = {
         todoData: [
-            { value: 'Learn React', important: false, id: 1, complete: false },
-            { value: 'Build awesome App', important: true, id: 2, complete: false },
-            { value: 'Drink coffee', important: false, id: 3, complete: false },
-            { value: 'I need to develop a lot of components in Ract. I am very happy!', important: false, id: 4, complete: false }
-        ]
+            { value: 'Learn React', important: false, id: 1, complete: false, see: true },
+            { value: 'Build awesome App', important: true, id: 2, complete: false, see: true },
+            { value: 'Drink coffee', important: false, id: 3, complete: false, see: true },
+            { value: 'I need to develop a lot of components in Ract. I am very happy!', important: false, id: 4, complete: false, see: true }
+        ],
+        
     }
 
     deleteTodo = id => {
@@ -25,7 +26,7 @@ export default class App extends Component {
     addTodo = async value => {
         await this.idGenerate();
         const { id } = this;
-        const newTodo = { value, id, important: false, complete: false };
+        const newTodo = { value, id, important: false, complete: false, see: true };
         
         this.setState(({ todoData }) => ({ todoData: [ ...todoData, newTodo ] }));
     }
@@ -48,12 +49,20 @@ export default class App extends Component {
         this.setState(({ todoData }) => ({todoData: [ ...todoData ].reduce((result, obj) => {
             obj[key] = obj.id === id ? !obj[key] : obj[key];
             return [ ...result, { ...obj } ];
-        }, [])}))
+        }, [])}));
     }
 
     toggleComplete = id => this.togglingDataActivities(id, 'complete');
 
     toggleImportant = id => this.togglingDataActivities(id, 'important');
+
+    searchToDo = e => {
+        const searchValue = e.target.value.toUpperCase();
+        this.setState(({ todoData }) => ({ todoData: [ ...todoData ].reduce((result, obj) => {
+            obj.see = obj.value.toUpperCase().indexOf(searchValue) >= 0 ? true : false;
+            return [ ...result, { ...obj } ];
+        }, [] )}));
+    }
 
     render() {
         const { todoData } = this.state;
@@ -68,7 +77,7 @@ export default class App extends Component {
                 done={ done } />
 
               <div className="app-activities">
-                <SearchPanel />
+                <SearchPanel searchToDo={ this.searchToDo }/>
                 <ItemStatusFilter />
               </div>
 

@@ -1,12 +1,11 @@
 import React from 'react';
 import './search-panel.css'
 
-const SearchPanel = () => {
-    const searchText = 'Type here to search';
-  
+const SearchPanel = ({ searchToDo }) => {
     return (
         <input className="search-panel form-control" 
-            placeholder={searchText} />
+            placeholder="Type here to search"
+            onChange={ searchToDo } />
     );
 };
 
