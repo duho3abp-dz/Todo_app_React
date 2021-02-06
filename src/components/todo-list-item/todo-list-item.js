@@ -12,33 +12,21 @@ export default class TodoListItem extends Component {
         this.setState({ important: important });
     }
 
-    toggleImportant = () => {
-        const { important } = this.state;
-        this.setState({ important: !important });
-    }
-
-    toggleComplete = () => {
-        const { completed } = this.state;
-        this.setState({ completed: !completed });
-    }
+    toggleImportant = () => this.setState(({ important }) => ({ important: !important }));
+    toggleComplete = () => this.setState(({ completed }) => ({ completed: !completed }));
 
     render() {
         const { value } = this.props;
         const { important, completed } = this.state;
 
-        const textStyle = {
-            color: important ? 'steelblue' : 'black',
-            fontWeight: important ? 'bold' : 'normal'
-        };
-
-        const textClasses = `todo-list-item-label ${completed ? 'complete' : ''}`;
-        const buttonClasses = `btn btn-outline-success btn-sm ${important ? 'active' : ''}`;
+        const addTextActiveClass = completed && important ? 'complete important' : completed ? 'complete' : important ? 'important': '';
+        const textClasses = `todo-list-item-label ${ addTextActiveClass }`;
+        const buttonClasses = `btn btn-outline-success btn-sm ${ important ? 'active' : '' }`;
 
         return (
             <li className="todo-list-item list-group-item">
     
                 <span className={ textClasses } 
-                      style={ textStyle }
                       onClick={ this.toggleComplete }
                       >{ value }
                 </span>

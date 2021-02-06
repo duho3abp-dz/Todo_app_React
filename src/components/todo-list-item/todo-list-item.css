@@ -9,6 +9,10 @@
 .todo-list-item-label.complete {
     text-decoration: line-through;
 }
+.todo-list-item-label.important {
+    color: steelblue;
+    font-weight: bold;
+}
 
 .todo-list-item {
     display: flex;
