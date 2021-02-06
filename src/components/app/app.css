@@ -4,6 +4,11 @@
     padding: 50px 0;
 }
 
+.app-activities {
+    display: flex;
+    justify-content: space-between;
+}
+
 @media (max-width: 500px) {
     .app {
         max-width: 90%;

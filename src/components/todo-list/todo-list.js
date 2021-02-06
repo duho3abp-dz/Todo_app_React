@@ -3,13 +3,20 @@ import './todo-list.css';
 
 import TodoListItem from '../todo-list-item';
 
-const TodoList = ({ todos, deleteTodo }) => {
+const TodoList = ({ 
+    todos, 
+    deleteTodo, 
+    toggleComplete,
+    toggleImportant
+}) => {
     const elements = todos.map(({ id, ...item }) => {
         return (
             <TodoListItem 
                 deleteTodo={ () => deleteTodo(id) }
                 key={ id }
-                { ...item }  />
+                { ...item }
+                toggleComplete={ () => toggleComplete(id) } 
+                toggleImportant={ () => toggleImportant(id) } />
         );
     });
 

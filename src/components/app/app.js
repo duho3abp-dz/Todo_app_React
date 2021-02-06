@@ -5,16 +5,16 @@ import AppHeader from '../app-header';
 import TodoList from '../todo-list';
 import SearchPanel from '../search-panel';
 import ItemStatusFilter from '../item-status-filter';
-import AddItem from '../add-item';
+import ItemAddForm from '../item-add-form';
 
 export default class App extends Component {
+    id = 0
     state = {
-        id: 0,
         todoData: [
-            { value: 'Learn React', important: false, id: 1 },
-            { value: 'Build awesome App', important: true, id: 2 },
-            { value: 'Drink coffee', important: false, id: 3 },
-            { value: 'I need to develop a lot of components in Ract. I am very happy!', important: false, id: 4 }
+            { value: 'Learn React', important: false, id: 1, complete: false },
+            { value: 'Build awesome App', important: true, id: 2, complete: false },
+            { value: 'Drink coffee', important: false, id: 3, complete: false },
+            { value: 'I need to develop a lot of components in Ract. I am very happy!', important: false, id: 4, complete: false }
         ]
     }
 
@@ -25,10 +25,10 @@ export default class App extends Component {
     addTodo = async value => {
         await this.idGenerate();
 
-        const { todoData, id } = this.state;
-        const newTodo = { value, id, important: false };
+        const { id } = this;
+        const newTodo = { value, id, important: false, complete: false };
         
-        this.setState((state) => ({ todoData: [ ...todoData, newTodo ] }));
+        this.setState(({ todoData }) => ({ todoData: [ ...todoData, newTodo ] }));
     }
 
     idGenerate = () => {
@@ -40,25 +40,49 @@ export default class App extends Component {
 
             if (coincidences.length) { 
                 randomCount(); 
-            } else this.setState({ id: random });
+            } else this.id = random;
         };
         randomCount();
     }
 
+    toggleComplete = id => {
+        this.setState(({ todoData }) => ({todoData: todoData.reduce((result, obj) => {
+            obj.complete = obj.id === id ? !obj.complete : obj.complete;
+            return [ ...result, { ...obj } ];
+        }, [])}))
+    };
+
+    toggleImportant = id => {
+        this.setState(({ todoData }) => ({todoData: todoData.reduce((result, obj) => {
+            obj.important = obj.id === id ? !obj.important : obj.important;
+            return [ ...result, { ...obj } ];
+        }, [])}))
+    };
+
     render() {
         const { todoData } = this.state;
 
+        const done = todoData.filter(({ complete }) => complete).length;
+        const toDo = todoData.length - done;
+
         return (
             <div className="app">
-              <AppHeader />
-              <SearchPanel />
-              <ItemStatusFilter />
+              <AppHeader 
+                toDo={ toDo } 
+                done={ done } />
+
+              <div className="app-activities">
+                <SearchPanel />
+                <ItemStatusFilter />
+              </div>
 
               <TodoList 
                 todos={ todoData } 
-                deleteTodo={ this.deleteTodo } />
+                deleteTodo={ this.deleteTodo }
+                toggleComplete={ this.toggleComplete }
+                toggleImportant={ this.toggleImportant } />
 
-              <AddItem addTodo={ this.addTodo } />
+              <ItemAddForm addTodo={ this.addTodo } />
             </div>
           );
     }

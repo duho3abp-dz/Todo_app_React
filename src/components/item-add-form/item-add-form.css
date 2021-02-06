@@ -1,0 +1,12 @@
+.item-add-form {
+    margin-top: 5px;
+    display: flex;
+}
+
+.item-add-form-btn {
+    margin-left: 5px;
+}
+
+.item-add-form-input {
+    width: 85%;
+}
