@@ -10,7 +10,6 @@ const TodoList = ({
     toggleImportant
 }) => {
     const elements = todos.map(({ id, see, ...item }) => {
-        if (!see) return;
         return (
             <TodoListItem 
                 deleteTodo={ () => deleteTodo(id) }
