@@ -2,10 +2,24 @@
     display: flex;
     align-items: center;
     max-width: 80%;
+    cursor: pointer;
+    transition: all 50ms ease;
+}
+
+.todo-list-item-label.complete {
+    text-decoration: line-through;
 }
 
 .todo-list-item {
     display: flex;
     justify-content: space-between;
     margin: 1px 0;
+}
+
+.todo-list-item-buttons button {
+    margin-right: 5px;
+}
+
+.todo-list-item-buttons button:last-child {
+    margin-right: unset;
 }
