@@ -9,29 +9,30 @@ export default class ItemAddForm extends Component {
 
     changeValue = e => this.setState({ value: e.target.value });
 
-    submitTodo = value => {
+    submitTodo = e => {
+        e.preventDefault();
+
+        const { value } = this.state;
         if (!value) return;
+
         this.props.addTodo(value);
         this.setState({ value: '' });
     }
 
     render() {
-        
-        const { value } = this.state;
-
         return (
-            <div className="item-add-form">
+            <form className="item-add-form"
+                onSubmit={ this.submitTodo }>
+
                 <input type="text" 
-                    value={ value }
+                    value={ this.state.value }
                     onChange={ this.changeValue }
                     className="item-add-form-input form-control" />
 
-                <button type="button" 
-                        onClick={ () => this.submitTodo(value) }
+                <button type="submit" 
                         className="item-add-form-btn btn btn-secondary"
-                        >Add
-                </button>
-            </div>
+                        >Add</button>
+            </form>
         );
     }
 }

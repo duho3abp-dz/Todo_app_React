@@ -24,7 +24,6 @@ export default class App extends Component {
 
     addTodo = async value => {
         await this.idGenerate();
-
         const { id } = this;
         const newTodo = { value, id, important: false, complete: false };
         
@@ -45,19 +44,16 @@ export default class App extends Component {
         randomCount();
     }
 
-    toggleComplete = id => {
-        this.setState(({ todoData }) => ({todoData: todoData.reduce((result, obj) => {
-            obj.complete = obj.id === id ? !obj.complete : obj.complete;
+    togglingDataActivities = (id, key) => {
+        this.setState(({ todoData }) => ({todoData: [ ...todoData ].reduce((result, obj) => {
+            obj[key] = obj.id === id ? !obj[key] : obj[key];
             return [ ...result, { ...obj } ];
         }, [])}))
-    };
+    }
 
-    toggleImportant = id => {
-        this.setState(({ todoData }) => ({todoData: todoData.reduce((result, obj) => {
-            obj.important = obj.id === id ? !obj.important : obj.important;
-            return [ ...result, { ...obj } ];
-        }, [])}))
-    };
+    toggleComplete = id => this.togglingDataActivities(id, 'complete');
+
+    toggleImportant = id => this.togglingDataActivities(id, 'important');
 
     render() {
         const { todoData } = this.state;
