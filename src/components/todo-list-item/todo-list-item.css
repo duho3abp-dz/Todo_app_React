@@ -11,7 +11,7 @@
     text-decoration: line-through;
 }
 .todo-list-item-label.important {
-    color: steelblue;
+    color: rgb(5, 78, 78);
     font-weight: bold;
 }
 
@@ -21,8 +21,16 @@
     margin: 1px 0;
 }
 
+.todo-list-item-buttons {
+    display: flex;
+    align-items: flex-start;
+}
+
 .todo-list-item-buttons button {
     margin-right: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .todo-list-item-buttons button:last-child {

@@ -20,17 +20,69 @@ export default class App extends Component {
         status: 'All'
     }
 
-    deleteTodo = id => {
+    // -------------- add / delete -------------- //
+
+    deleteTodo = (id) => {
         this.setState(({ todoData }) => ({ todoData: todoData.filter(obj => obj.id !== id) }));
     }
 
-    addTodo = async value => {
+    addTodo = async (value) => {
         await this.idGenerate();
         const { id } = this;
         const newTodo = { value, id, important: false, complete: false };
         
         this.setState(({ todoData }) => ({ todoData: [ ...todoData, newTodo ] }));
     }
+
+    // -------------- toggling activites -------------- //
+
+    togglingDataActivities = (id, key) => {
+        this.setState(({ todoData }) => ({todoData: [ ...todoData ].reduce((result, obj) => {
+            obj[key] = obj.id === id ? !obj[key] : obj[key];
+            return [ ...result, { ...obj } ];
+        }, [])}));
+    }
+
+    toggleComplete = (id) => {
+        this.togglingDataActivities(id, 'complete');
+    }
+
+    toggleImportant = (id) => {
+        this.togglingDataActivities(id, 'important');
+    }
+
+    // -------------- search -------------- //
+
+    setTerm = (e) => {
+        const term = e.target.value.toUpperCase();
+        this.setState({ term });
+    }
+
+    search = (items, term) => {
+        if (!term) return items;
+        return items.filter(({ value }) => value.toUpperCase().indexOf(term) >= 0);
+    }
+
+    // -------------- filter -------------- //
+
+    setStatus = (status) => {
+        this.setState({ status });
+    }
+
+    filter = (items, status) => {
+        switch (status) {
+            case 'All':
+                return items;
+            case 'Done':
+                return items.filter(({ complete }) => complete);
+            case 'Active':
+                return items.filter(({ complete }) => !complete);
+            default:
+                return items;
+        }
+    }
+
+    // -------------- some func -------------- //
 
     idGenerate = () => {
         const { todoData } = this.state;
@@ -46,41 +98,14 @@ export default class App extends Component {
         randomCount();
     }
 
-    togglingDataActivities = (id, key) => {
-        this.setState(({ todoData }) => ({todoData: [ ...todoData ].reduce((result, obj) => {
-            obj[key] = obj.id === id ? !obj[key] : obj[key];
-            return [ ...result, { ...obj } ];
-        }, [])}));
-    }
-
-    toggleComplete = id => this.togglingDataActivities(id, 'complete');
-
-    toggleImportant = id => this.togglingDataActivities(id, 'important');
-
-    searchToDo = e => {
-        this.setState({ term: e.target.value.toUpperCase() });
-    }
-
-    filterSearchItems = (items, term) => {
-        if (!term) return items;
-        return items.filter(({ value }) => value.toUpperCase().indexOf(term) >= 0);
-    }
-
-    setStatus = status => {
-        this.setState({ status: status });
-    }
-
-    filterTodo = (items, status) => {
-        if (status === 'All') return items;
-        if (status === 'Done') return items.filter(({ complete }) => complete);
-        if (status === 'Active') return items.filter(({ complete }) => !complete);
-    }
+    // -------------- RENDER -------------- //
 
     render() {
         const { todoData, term, status } = this.state;
 
-        const filterTodo = this.filterTodo(todoData, status);
-        const renderItems = this.filterSearchItems(filterTodo, term);
+        const filterTodo = this.filter(todoData, status);
+        const renderItems = this.search(filterTodo, term);
+
         const done = todoData.filter(({ complete }) => complete).length;
         const toDo = todoData.length - done;
 
@@ -91,8 +116,8 @@ export default class App extends Component {
                 done={ done } />
 
               <div className="app-activities">
-                <SearchPanel searchToDo={ this.searchToDo } />
-                <ItemStatusFilter setStatus={ this.setStatus } />
+                <SearchPanel searchToDo={ this.setTerm } />
+                <ItemStatusFilter setStatus={ this.setStatus } status={ status } />
               </div>
 
               <TodoList 
