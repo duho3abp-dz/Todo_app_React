@@ -1,0 +1,7 @@
+.item-status-filter button {
+    margin-right: 3px;
+}
+
+.item-status-filter button:last-child {
+    margin-right: unset;
+}

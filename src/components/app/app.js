@@ -16,7 +16,8 @@ export default class App extends Component {
             { value: 'Drink coffee', important: false, id: 3, complete: false },
             { value: 'I need to develop a lot of components in Ract. I am very happy!', important: false, id: 4, complete: false }
         ],
-        term: ''
+        term: '',
+        status: 'All'
     }
 
     deleteTodo = id => {
@@ -65,10 +66,21 @@ export default class App extends Component {
         return items.filter(({ value }) => value.toUpperCase().indexOf(term) >= 0);
     }
 
-    render() {
-        const { todoData, term } = this.state;
+    setStatus = status => {
+        this.setState({ status: status });
+    }
 
-        const renderItems = this.filterSearchItems(todoData, term);
+    filterTodo = (items, status) => {
+        if (status === 'All') return items;
+        if (status === 'Done') return items.filter(({ complete }) => complete);
+        if (status === 'Active') return items.filter(({ complete }) => !complete);
+    }
+
+    render() {
+        const { todoData, term, status } = this.state;
+
+        const filterTodo = this.filterTodo(todoData, status);
+        const renderItems = this.filterSearchItems(filterTodo, term);
         const done = todoData.filter(({ complete }) => complete).length;
         const toDo = todoData.length - done;
 
@@ -79,8 +91,8 @@ export default class App extends Component {
                 done={ done } />
 
               <div className="app-activities">
-                <SearchPanel searchToDo={ this.searchToDo }/>
-                <ItemStatusFilter />
+                <SearchPanel searchToDo={ this.searchToDo } />
+                <ItemStatusFilter setStatus={ this.setStatus } />
               </div>
 
               <TodoList 
