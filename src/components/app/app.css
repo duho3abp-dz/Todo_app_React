@@ -10,8 +10,20 @@
     justify-content: space-between;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 800px) {
+    .app {
+        max-width: 70%;
+    } 
+}
+
+@media (max-width: 600px) {
     .app {
         max-width: 90%;
+    } 
+}
+
+@media (max-width: 400px) {
+    .app {
+        max-width: 95%;
     } 
 }
