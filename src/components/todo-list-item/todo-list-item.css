@@ -1,10 +1,9 @@
 .todo-list-item-label {
-    display: flex;
-    align-items: center;
-    max-width: 80%;
+    display: block;
+    width: calc(100% - (34px + 34px + 10px));
     overflow: hidden;
-    cursor: pointer;
     transition: all 50ms ease;
+    cursor: pointer;
 }
 
 .todo-list-item-label.complete {

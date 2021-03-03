@@ -3,7 +3,7 @@ import './todo-list-item.css';
 
 const TodoListItem = ({
     value, 
-    complete, 
+    complete,
     important, 
     deleteTodo, 
     toggleComplete, 
